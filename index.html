@@ -67,7 +67,12 @@
 				if(playing)
 				{
 					var current = Math.floor(Math.random()*25);
-					document.getElementById("td["+current+"]").innerHTML = '<img src="img/mouse.png">';
+					var type = Math.floor(Math.random()*2);
+					if (type == 1) {
+						document.getElementById("td["+current+"]").innerHTML = '<img src="img/pig.png">';
+					} else {
+					    document.getElementById("td["+current+"]").innerHTML = '<img src="img/vegetable.png">';
+					}
 					setTimeout("document.getElementById('td["+current+"]').innerHTML=''",3000);
 				}
 			}
