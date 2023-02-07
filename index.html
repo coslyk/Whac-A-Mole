@@ -31,6 +31,9 @@
 			var countDown = 30;
 			var interId = null,
 				timeId = null;
+			var pig_img = '<img src="img/pig.png">';
+			var pig_beaten_img = '<img src="img/pig_beaten.png">';
+			var vegetable_img = '<img src="img/vegetable.png">';
 
 			function GameOver(){
 				timeStop();
@@ -68,10 +71,15 @@
 				{
 					var current = Math.floor(Math.random()*25);
 					var type = Math.floor(Math.random()*2);
+					switch (document.form1.mode.value) {
+						case "both": Math.floor(Math.random()*2); break;
+						case "pig": type = 1; break;
+						default: type = 0; break;
+					}
 					if (type == 1) {
-						document.getElementById("td["+current+"]").innerHTML = '<img src="img/pig.png">';
+						document.getElementById("td["+current+"]").innerHTML = pig_img;
 					} else {
-					    document.getElementById("td["+current+"]").innerHTML = '<img src="img/vegetable.png">';
+					    document.getElementById("td["+current+"]").innerHTML = vegetable_img;
 					}
 					setTimeout("document.getElementById('td["+current+"]').innerHTML=''",3000);
 				}
@@ -92,15 +100,21 @@
 				}
 				else
 				{	
-					 beat +=1;
-					if(document.getElementById("td["+id+"]").innerHTML!="")
+					beat +=1;
+					var img = document.getElementById("td["+id+"]").innerHTML;
+					if(img == pig_img || img == vegetable_img)
 					{
 						score += 1;
 						knock +=1;
 						success = knock/beat;
 						document.form1.success.value = success;
 						document.form1.score.value = score;
-						document.getElementById("td["+id+"]").innerHTML="";
+						if (img == vegetable_img) {
+							document.getElementById("td["+id+"]").innerHTML = "";
+						} else {
+							document.getElementById("td["+id+"]").innerHTML = pig_beaten_img;
+							setTimeout("document.getElementById('td["+id+"]').innerHTML=''",1000);
+						}
 					}
 					else
 					{
@@ -132,6 +146,12 @@
 				<input type="text" name="success" size="10">
 				<label>倒计时：</label>
 				<input type="text" name="remtime" size="5">
+				<label>模式：</label>
+				<select name="mode">
+					<option value="both">都打</option>
+					<option value="pig">打猪</option>
+					<option value="vegetable">打菜</option>
+				 </select>
 			</form>
 			<table>
 				<tr>
